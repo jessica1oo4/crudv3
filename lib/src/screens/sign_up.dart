@@ -1,5 +1,6 @@
 import 'package:crudv3/src/screens/products.dart';
 import 'package:crudv3/src/services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,12 +37,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
               RaisedButton(
                 child: Text('Create My Account'),
                 onPressed: () async {
-                  await authService.signUp(
+                  User user = await authService.signUp(
                     emailController.text.trim(),
                     pwController.text.trim(),
                   );
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Products()));
+                  if (user != null) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Products()));
+                  } else {
+                    print('user is null');
+                  }
                 },
               ),
             ],

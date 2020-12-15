@@ -17,6 +17,9 @@ class _SignInScreenState extends State<SignInScreen> {
     AuthService authService = context.watch<AuthService>();
 
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Colors.pink,
+          title: Text('Welcome to this learning appp!')),
       body: Container(
         child: Padding(
           padding: EdgeInsets.all(30),
