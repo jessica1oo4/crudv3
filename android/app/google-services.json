@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "378837562620",
+    "project_id": "crudv3-23f7e",
+    "storage_bucket": "crudv3-23f7e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378837562620:android:bd2d42b0ff2b74fb6e1379",
+        "android_client_info": {
+          "package_name": "com.prossperxr.crudv3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "378837562620-gmku16qsjh5pmoacu9bo5s1g509jtvjk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNEoOt_dgiXEvnFRROIXSXeSfuJDb-rIc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "378837562620-gmku16qsjh5pmoacu9bo5s1g509jtvjk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
