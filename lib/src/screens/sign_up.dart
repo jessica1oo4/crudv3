@@ -3,8 +3,13 @@ import 'package:crudv3/src/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:crudv3/src/models/app_user.dart';
 
 class SignUpScreen extends StatefulWidget {
+  Function toggleScreen;
+
+  SignUpScreen({this.toggleScreen});
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -16,7 +21,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     AuthService authService = context.watch<AuthService>();
-
     return Scaffold(
       body: Container(
         child: Padding(
@@ -37,18 +41,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
               RaisedButton(
                 child: Text('Create My Account'),
                 onPressed: () async {
-                  User user = await authService.signUp(
-                    emailController.text.trim(),
-                    pwController.text.trim(),
-                  );
-                  if (user != null) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Products()));
-                  } else {
-                    print('user is null');
-                  }
+                  AppUser appUser = await authService.signUp(
+                      emailController.text.trim(), pwController.text.trim());
+
+                  //                  if (appUser == null) {
+//                  } else {
+//                    Navigator.pushReplacement(
+//                        context, MaterialPageRoute(builder: (_) => Products()));
+//                  }
                 },
               ),
+              FlatButton.icon(
+                onPressed: () {
+                  widget.toggleScreen();
+                },
+                icon: Icon(Icons.perm_identity),
+                label: Text('Already Have An Account'),
+              )
             ],
           ),
         ),

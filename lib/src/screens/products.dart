@@ -1,7 +1,10 @@
+import 'package:crudv3/src/models/app_user.dart';
 import 'package:crudv3/src/models/product.dart';
 import 'package:crudv3/src/providers/productProvider.dart';
 import 'package:crudv3/src/screens/edit_product.dart';
+import 'package:crudv3/src/screens/sign_in.dart';
 import 'package:crudv3/src/services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,9 +24,14 @@ class Products extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => EditProduct()));
               }),
           IconButton(
-              icon: Icon(Icons.atm),
-              onPressed: () {
-                authService.signOut();
+              icon: Icon(Icons.exit_to_app),
+              onPressed: () async {
+                await authService.signOut();
+//                AppUser appUser = context.read<AppUser>();
+//                if (appUser == null) {
+//                  Navigator.push(context,
+//                      MaterialPageRoute(builder: (context) => SignInScreen()));
+//                } else {}
               })
         ],
       ),
