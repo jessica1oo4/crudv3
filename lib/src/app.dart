@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crudv3/src/providers/auth_provider.dart';
 import 'package:crudv3/src/providers/productProvider.dart';
 import 'package:crudv3/src/screens/home.dart';
 import 'package:crudv3/src/screens/products.dart';
@@ -25,6 +26,7 @@ class App extends StatelessWidget {
         ChangeNotifierProvider<ProductProvider>(
           create: (_) => ProductProvider(),
         ),
+        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         StreamProvider<List<Product>>(
           create: (_) => FirestoreService().readDb(),
         ),
