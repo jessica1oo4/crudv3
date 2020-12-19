@@ -1,8 +1,10 @@
 import 'package:crudv3/src/models/app_user.dart';
+import 'package:crudv3/src/services/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  FirestoreService firestoreService = FirestoreService();
 
   //create app user based on firebase User
   AppUser _appUserFromUser(User user) {
@@ -18,11 +20,20 @@ class AuthService {
       UserCredential userCredential = await firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
       User user = userCredential.user;
-      return _appUserFromUser(user);
+      AppUser appUser = _appUserFromUser(user);
+
+      firestoreService.createUser(appUser);
+
+      return appUser;
     } catch (e) {
       print(e);
       return null;
     }
+  }
+
+  Future<AppUser> getAppUser() async {
+    User user = await firebaseAuth.currentUser;
+    return _appUserFromUser(user);
   }
 
   Future<AppUser> signIn(String email, String password) async {

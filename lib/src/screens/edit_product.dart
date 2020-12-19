@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crudv3/src/models/product.dart';
 import 'package:crudv3/src/providers/productProvider.dart';
+import 'package:crudv3/src/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -40,6 +41,7 @@ class _EditProductState extends State<EditProduct> {
   @override
   Widget build(BuildContext context) {
     ProductProvider productProvider = Provider.of<ProductProvider>(context);
+    AuthService authService = context.watch<AuthService>();
 
     return Scaffold(
       appBar: AppBar(
@@ -61,17 +63,21 @@ class _EditProductState extends State<EditProduct> {
             ),
             RaisedButton(
               child: Text('Save'),
-              onPressed: () {
+              onPressed: () async {
                 if (widget.productModel == null) {
-                  productProvider.save(Product(
-                      name: nameController.text,
-                      price: double.parse(priceController.text),
-                      productId: Uuid().v4()));
+                  productProvider.save(
+                      product: Product(
+                          name: nameController.text,
+                          price: double.parse(priceController.text),
+                          productId: Uuid().v4()),
+                      appUser: await authService.getAppUser());
                 } else {
-                  productProvider.save(Product(
-                      name: nameController.text,
-                      price: double.parse(priceController.text),
-                      productId: widget.productModel.productId));
+                  productProvider.save(
+                      product: Product(
+                          name: nameController.text,
+                          price: double.parse(priceController.text),
+                          productId: widget.productModel.productId),
+                      appUser: await authService.getAppUser());
                 }
                 Navigator.pop(context);
               },

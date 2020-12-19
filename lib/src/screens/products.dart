@@ -9,51 +9,45 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Products extends StatelessWidget {
+  AppUser appUser;
+
+  Products({this.appUser});
+
   @override
   Widget build(BuildContext context) {
     List<Product> productList = Provider.of<List<Product>>(context);
+    ProductProvider productProvider = context.watch<ProductProvider>();
     AuthService authService = context.watch<AuthService>();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Products'),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => EditProduct()));
-              }),
-          IconButton(
-              icon: Icon(Icons.exit_to_app),
-              onPressed: () async {
-                await authService.signOut();
-//                AppUser appUser = context.read<AppUser>();
-//                if (appUser == null) {
-//                  Navigator.push(context,
-//                      MaterialPageRoute(builder: (context) => SignInScreen()));
-//                } else {}
-              })
-        ],
-      ),
-      body: (productList == null)
-          ? Container()
-          : ListView.builder(
-              itemCount: productList.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Text(productList[index].name),
-                  trailing: Text(productList[index].price.toString()),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EditProduct(
-                                  productModel: productList[index],
-                                )));
-                  },
-                );
-              },
-            ),
-    );
+        appBar: AppBar(
+          title: Text('Products'),
+          actions: [
+            IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => EditProduct()));
+                }),
+            IconButton(
+                icon: Icon(Icons.exit_to_app),
+                onPressed: () async {
+                  await authService.signOut();
+                })
+          ],
+        ),
+        body: (productList == null)
+            ? Container()
+            : StreamBuilder(
+                stream: productProvider.productList(appUser),
+                builder: (context, AsyncSnapshot<List<Product>> snapshot) {
+                  return ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, int) {
+                        return ListTile(
+                          leading: Text(snapshot.data[int].name),
+                          trailing: Text(snapshot.data[int].price.toString()),
+                        );
+                      });
+                }));
   }
 }

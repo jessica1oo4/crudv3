@@ -75,7 +75,9 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
                 toggleScreen: toggleRegistrationScreen,
               );
             } else {
-              return Products();
+              return Products(
+                appUser: appUser,
+              );
             }
           } else {
             return CircularProgressIndicator();
